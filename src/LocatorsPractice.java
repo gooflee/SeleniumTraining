@@ -4,11 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Wait;
+import org.testng.Assert;
 
 public class LocatorsPractice {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws InterruptedException {
+		
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 		driver.get("https://rahulshettyacademy.com/locatorspractice/");		
@@ -16,7 +17,6 @@ public class LocatorsPractice {
 		driver.findElement(By.name("inputPassword")).sendKeys("hello123");
 		//driver.findElement(By.cssSelector("#container > div.form-container.sign-in-container > form > button")).click();
 		driver.findElement(By.cssSelector("button.submit")).click();
-
 		
 		System.out.println(driver.findElement(By.cssSelector("p.error")).getText());
 		System.out.println(driver.findElement(By.className("error")).getText());
@@ -34,30 +34,34 @@ public class LocatorsPractice {
 		//System.out.println(driver.findElement(By.className("infoMsg")).getText());
 		String errormesage = driver.findElement(By.cssSelector("form p")).getText();
 		//System.out.println(driver.findElement(By.cssSelector("form p")).getText());
-		System.out.println(errormesage);
-		
 		String[] errorToks = errormesage.split("'");
-		for(int i=0;i<errorToks.length;i++)
-		{
-			System.out.println(i + errorToks[i]);
-		}
+		System.out.println(errormesage);
+		//driver.findElement(By.cssSelector("button[class='go-to-login-btn']")).click();
 
-		driver.findElement(By.cssSelector("#inputUsername")).sendKeys("rahul");
-		
-		//using regex
-		driver.findElement(By.cssSelector("input[type*='pass']")).sendKeys(errorToks[2]);
 		driver.findElement(By.xpath("//div[@class='forgot-pwd-btn-conainer']/button[1]")).click();
 		
 		// I have to wrap the sleep or Java will complain
-		try {
-			Thread.sleep(1000);
-		}
-		catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
+		Thread.sleep(1000);
+
+		
+		driver.findElement(By.cssSelector("#inputUsername")).sendKeys("rahul");	
+		
+		//using regex
+		driver.findElement(By.cssSelector("input[type*='pass']")).sendKeys(errorToks[1]);
+		//driver.findElement(By.cssSelector("input[type*='pass']")).sendKeys("rahulshettyacademy");
+		
+		
 		driver.findElement(By.cssSelector("#chkboxTwo")).click();
 		driver.findElement(By.xpath("//button[contains(@class, 'submit')]")).click();
-		driver.quit();
-	}
+		
+		Thread.sleep(1000);
 
+		
+		String loggedInMessage = driver.findElement(By.cssSelector("p")).getText();
+		System.out.println(loggedInMessage);
+		Assert.assertEquals(loggedInMessage, "You are successfully logged in.");
+		driver.quit();
+
+	}
 }
