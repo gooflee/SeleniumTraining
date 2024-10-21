@@ -10,6 +10,8 @@ public class LocatorsPractice {
 
 	public static void main(String[] args) throws InterruptedException {
 		
+		String name = "rahul";
+		
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 		driver.get("https://rahulshettyacademy.com/locatorspractice/");		
@@ -35,17 +37,16 @@ public class LocatorsPractice {
 		String errormesage = driver.findElement(By.cssSelector("form p")).getText();
 		//System.out.println(driver.findElement(By.cssSelector("form p")).getText());
 		String[] errorToks = errormesage.split("'");
-		System.out.println(errormesage);
+		System.out.println(errormesage + errorToks.length);
 		//driver.findElement(By.cssSelector("button[class='go-to-login-btn']")).click();
 
 		driver.findElement(By.xpath("//div[@class='forgot-pwd-btn-conainer']/button[1]")).click();
 		
-		// I have to wrap the sleep or Java will complain
 
 		Thread.sleep(1000);
 
 		
-		driver.findElement(By.cssSelector("#inputUsername")).sendKeys("rahul");	
+		driver.findElement(By.cssSelector("#inputUsername")).sendKeys(name);	
 		
 		//using regex
 		driver.findElement(By.cssSelector("input[type*='pass']")).sendKeys(errorToks[1]);
@@ -61,6 +62,12 @@ public class LocatorsPractice {
 		String loggedInMessage = driver.findElement(By.cssSelector("p")).getText();
 		System.out.println(loggedInMessage);
 		Assert.assertEquals(loggedInMessage, "You are successfully logged in.");
+		Assert.assertEquals(driver.findElement(By.tagName("h2")).getText(),"Hello " + name +",", null);
+		
+		// Logout
+		
+		driver.findElement(By.xpath("//button[text()='Log Out']")).click();
+		
 		driver.quit();
 
 	}
