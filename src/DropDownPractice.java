@@ -21,7 +21,8 @@ public class DropDownPractice {
 		//testDyamicDropdownWithOutIndex();
 		//testAutoSuggest();
 		//checkboxPractice();
-		calendarPractice();
+		//calendarPractice();
+		checkIfDisabled();
 	}
 	
 	private static void testStaticDropdown()
@@ -184,4 +185,35 @@ public class DropDownPractice {
 		driver.quit();
 	
 	}
+	private static void checkIfDisabled() throws InterruptedException
+	{
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--disable-notifications");
+		options.addArguments("--incognito");
+		WebDriver driver = new ChromeDriver(options);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+		driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+		
+		driver.manage().window().maximize();
+		// This is not working in modern web technology
+		//Assert.assertFalse(driver.findElement(By.id("ctl00_mainContent_view_date2")).isEnabled());
+		boolean elemeentEnabled = false;
+		if(driver.findElement(By.cssSelector("div[id='Div1']")).getAttribute("style").contains("opacity: 1"))
+		{
+			elemeentEnabled = true;
+		}
+		System.out.println(elemeentEnabled);
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_1")).click();
+		if(driver.findElement(By.cssSelector("div[id='Div1']")).getAttribute("style").contains("opacity: 1"))
+		{
+			elemeentEnabled = true;
+		}
+		System.out.println(elemeentEnabled);
+		//driver.findElement(By.cssSelector("div[class='picker-first2'] button")).click();
+
+
+		driver.quit();
+	
+	}
+	
 }
