@@ -10,14 +10,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 public class WorkingWithArraysInSelemium {
 
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		List<String> vegatablesToSelect= Arrays.asList("Cucumber","Beans","Brinjal");
 		WebDriver driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
 		
 		//List<WebElement> products = driver.findElements(By.cssSelector("h4.product-name"));
@@ -27,6 +29,27 @@ public class WorkingWithArraysInSelemium {
 		//List<WebElement> children = product.findElements(By.xpath(".//a"));
 		//System.out.println(children.size());
 		addItems(driver, vegatablesToSelect);
+		
+		driver.findElement(By.cssSelector(".cart-icon")).click();
+		
+
+		//driver.findElement(By.xpath("//button[text()='PROCEED TO CHECKOUT']")).click();
+		driver.findElement(By.xpath("//div[@class='action-block']/button[@class=' '][1]")).click();
+		
+		Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebElement applyButton = driver.findElement(By.cssSelector("button.promoBtn"));
+		wait.until(d->applyButton.isDisplayed());
+
+		// add promo
+		driver.findElement(By.cssSelector("input.promoCode")).sendKeys("rahulshettyacademy");
+		applyButton.click();
+		
+		WebElement discountApplied = driver.findElement(By.cssSelector("span.promoInfo"));
+		
+		// Checkout
+		//List<WebElement> orderButtons = driver.findElements(By.xpath("//button")).get(2).click();
+		wait.until(d->discountApplied.isDisplayed());
+		 driver.findElements(By.xpath("//button")).get(1).click();
 		
 		//driver.quit();
 	}
@@ -59,7 +82,6 @@ public class WorkingWithArraysInSelemium {
 		  
 		 }
 		 
-		driver.findElement(By.cssSelector(".cart-icon")).click();
-		driver.findElement(By.xpath("//button[text()='PROCEED TO CHECKOUT']")).click();
+
 	}
 }
