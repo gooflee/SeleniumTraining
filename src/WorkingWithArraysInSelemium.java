@@ -49,7 +49,23 @@ public class WorkingWithArraysInSelemium {
 		// Checkout
 		//List<WebElement> orderButtons = driver.findElements(By.xpath("//button")).get(2).click();
 		wait.until(d->discountApplied.isDisplayed());
-		 driver.findElements(By.xpath("//button")).get(1).click();
+		driver.findElements(By.xpath("//button")).get(1).click();
+		
+		
+		
+		// Choose Country
+		WebElement chooseCountryExt = driver.findElement(By.cssSelector("div.wrapperTwo label"));
+		
+		WebElement countrySelect = driver.findElement(By.cssSelector("select"));
+
+		Select country = new Select(countrySelect);
+		country.selectByValue("British Virgin Islands");
+		
+		// Click Agree
+		driver.findElement(By.cssSelector("input[type='checkbox']")).click();
+		
+		// click proceed
+		driver.findElement(By.cssSelector("button")).click();
 		
 		//driver.quit();
 	}
